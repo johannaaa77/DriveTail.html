@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nuestros Servicios</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        /* Chips / filtros */
+        .filtro {
+            border: 1px solid #ccc;
+            color: #6c757d;
+            border-radius: 20px;
+            padding: 6px 15px;
+            background-color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .filtro.activo {
+            background-color: #d6e6ff;
+            border-color: #4a7dff;
+            color: #0040ff;
+            font-weight: 600;
+        }
+
+        .filtro.activo::before {
+            content: "✔ ";
+        }
+
+        /* Tarjeta de servicio */
+        .card-servicio {
+            border: none;
+            border-radius: 14px;
+            padding: 15px;
+            background-color: white;
+        }
+
+        .precio-tag {
+            background-color: #c7f5c7;
+            color: #0b7a0b;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="d-flex justify-content-between align-items-center px-3 py-2"
+         style="background-color: #0a1a2a; color: white;">
+
+        <!-- Flecha atrás -->
+        <div style="
+            width: 35px; height: 35px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;">
+            <i class="bi bi-arrow-left" style="font-size: 18px;"></i>
+        </div>
+
+        <!-- Título centrado -->
+        <h5 class="m-0">Nuestros Servicios</h5>
+
+        <!-- Lupa derecha -->
+        <div style="
+            width: 35px; height: 35px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;">
+            <i class="bi bi-search" style="font-size: 18px;"></i>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+
+        <!-- TARJETAS DE RESUMEN -->
+        <div class="row g-3">
+
+            <!-- Servicios -->
+            <div class="col-6">
+                <div class="card p-3 shadow-sm" style="border-radius: 15px;">
+                    <i class="bi bi-wrench" style="font-size: 28px; color:#0a1a2a;"></i>
+                    <h4 class="mt-2 fw-bold">12</h4>
+                    <p class="text-muted m-0">Servicios</p>
+                </div>
+            </div>
+
+            <!-- Completados -->
+            <div class="col-6">
+                <div class="card p-3 shadow-sm" style="border-radius: 15px;">
+                    <i class="bi bi-patch-check-fill" style="font-size: 28px; color:#198754;"></i>
+                    <h4 class="mt-2 fw-bold">7</h4>
+                    <p class="text-muted m-0">Completados</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BARRA DE BÚSQUEDA -->
+        <div class="input-group mt-4 shadow-sm">
+            <span class="input-group-text bg-white">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text" class="form-control" placeholder="Buscar servicios...">
+        </div>
+
+        <!-- FILTROS -->
+        <div class="d-flex gap-2 mt-3 flex-wrap">
+            <div class="filtro activo">Todos</div>
+            <div class="filtro">Detailing</div>
+            <div class="filtro">Mecánica</div>
+            <div class="filtro">Pintura</div>
+            <div class="filtro">Neumáticos</div>
+        </div>
+
+        <!-- TARJETAS DE SERVICIOS -->
+        <div class="mt-4">
+
+            <!-- Detailing -->
+            <div class="card-servicio shadow-sm mb-3">
+                <i class="bi bi-droplet-fill" style="font-size: 30px; color:#0a1a2a;"></i>
+                <h6 class="fw-bold mt-2">Detailing</h6>
+                <p class="text-muted small">Limpieza profunda y restauración del vehículo.</p>
+                <span class="precio-tag">$45.000</span>
+            </div>
+
+            <!-- Mecánica -->
+            <div class="card-servicio shadow-sm mb-3">
+                <i class="bi bi-gear-wide-connected" style="font-size: 30px; color:#0a1a2a;"></i>
+                <h6 class="fw-bold mt-2">Mecánica General</h6>
+                <p class="text-muted small">Reparaciones y mantenimiento preventivo.</p>
+                <span class="precio-tag">$30.000</span>
+            </div>
+
+            <!-- Pintura -->
+            <div class="card-servicio shadow-sm mb-3">
+                <i class="bi bi-brush-fill" style="font-size: 30px; color:#0a1a2a;"></i>
+                <h6 class="fw-bold mt-2">Pintura</h6>
+                <p class="text-muted small">Pintura automotriz profesional.</p>
+                <span class="precio-tag">$60.000</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Activar / desactivar filtros
+        document.querySelectorAll(".filtro").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".filtro").forEach(b => b.classList.remove("activo"));
+                btn.classList.add("activo");
+            });
+        });
+    </script>
+
+</body>
+</html>
