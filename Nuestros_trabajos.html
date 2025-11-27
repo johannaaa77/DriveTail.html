@@ -32,15 +32,15 @@
             color: white;
         }
 
-        /* Tarjetas de trabajos */
+        /* Tarjetas */
         .work-card {
             width: 100%;
-            max-width: 290px;
+            max-width: 260px;
             border-radius: 15px;
             overflow: hidden;
             background: white;
             padding: 15px;
-            margin: auto;
+            cursor: pointer;
         }
 
         .work-img {
@@ -67,11 +67,58 @@
 
         .tag-detailing { background-color: #0a74da; }
         .tag-restauracion { background-color: #198754; }
+
+        /* POPUP */
+        #popup-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #popup-card {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        #popup-img {
+            width: 100%;
+            height: 180px;
+            background-color: rgba(0, 82, 204, 0.1);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 80px;
+            color: #0a74da;
+            margin-bottom: 15px;
+        }
+
+        .close-popup-btn {
+            background-color: #0a74da;
+            color: white;
+            border: none;
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            border-radius: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR (actualizado según tu ejemplo) -->
+    <!-- NAVBAR -->
     <nav style="
         background-color: #0a1a2a;
         padding: 12px 15px;
@@ -91,39 +138,45 @@
 
         <!-- FILTROS -->
         <div class="text-center mb-3">
-            <button class="filter-btn active">Todos</button>
-            <button class="filter-btn">Detailing</button>
-            <button class="filter-btn">Restauración</button>
+            <button class="filter-btn active" data-filter="todos">Todos</button>
+            <button class="filter-btn" data-filter="detailing">Detailing</button>
+            <button class="filter-btn" data-filter="restauracion">Restauración</button>
         </div>
 
-        <!-- TARJETAS (3 alineadas hacia la derecha) -->
-        <div class="d-flex flex-wrap justify-content-end gap-3">
+        <!-- TARJETAS -->
+        <div id="cards-container" class="d-flex flex-wrap justify-content-start gap-3">
 
-            <!-- CARD 1 - Detailing -->
-            <div class="work-card">
-                <div class="work-img">
-                    <i class="bi bi-car-front-fill"></i>
-                </div>
+            <!-- CARD 1 -->
+            <div class="work-card category-detailing" 
+                data-title="Detailing Renault Duster" 
+                data-desc="Limpieza profunda y encerado completo de Renault Duster 2022, lavado interior, tratamiento de cueros y protección cerámica."
+                data-img='<i class="bi bi-car-front-fill"></i>'>
+                
+                <div class="work-img"><i class="bi bi-car-front-fill"></i></div>
                 <h6 class="fw-bold">Detailing Renault Duster</h6>
                 <p class="text-muted mb-1">Limpieza profunda y encerado completo de Renault Duster 2022, lavado interior, tratamiento de cueros y protección cerámica.</p>
                 <span class="tag tag-detailing">Detailing</span>
             </div>
 
-            <!-- CARD 2 - Detailing -->
-            <div class="work-card">
-                <div class="work-img">
-                    <i class="bi bi-car-front-fill"></i>
-                </div>
+            <!-- CARD 2 -->
+            <div class="work-card category-detailing" 
+                data-title="Protección cerámica BMW" 
+                data-desc="Aplicación de protección cerámica Premium en BMW Serie 3. Duración 3 años con garantía."
+                data-img='<i class="bi bi-car-front-fill"></i>'>
+                
+                <div class="work-img"><i class="bi bi-car-front-fill"></i></div>
                 <h6 class="fw-bold">Protección cerámica BMW</h6>
                 <p class="text-muted mb-1">Aplicación de protección cerámica Premium en BMW Serie 3. Duración 3 años con garantía.</p>
                 <span class="tag tag-detailing">Detailing</span>
             </div>
 
-            <!-- CARD 3 - Restauración -->
-            <div class="work-card">
-                <div class="work-img">
-                    <i class="bi bi-car-front-fill"></i>
-                </div>
+            <!-- CARD 3 -->
+            <div class="work-card category-restauracion" 
+                data-title="Restauración MINI Cooper" 
+                data-desc="Restauración completa MINI Cooper Works. Pintura, detailing premium y modificaciones personalizadas."
+                data-img='<i class="bi bi-car-front-fill"></i>'>
+                
+                <div class="work-img"><i class="bi bi-car-front-fill"></i></div>
                 <h6 class="fw-bold">Restauración MINI Cooper</h6>
                 <p class="text-muted mb-1">Restauración completa MINI Cooper Works. Pintura, detailing premium y modificaciones personalizadas.</p>
                 <span class="tag tag-restauracion">Restauración</span>
@@ -132,6 +185,64 @@
         </div>
 
     </div>
+
+    <!-- POPUP -->
+    <div id="popup-bg">
+        <div id="popup-card">
+            <div id="popup-img"></div>
+            <h4 id="popup-title"></h4>
+            <p id="popup-desc"></p>
+            <button class="close-popup-btn" onclick="closePopup()">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        const buttons = document.querySelectorAll(".filter-btn");
+        const cards = document.querySelectorAll(".work-card");
+        const container = document.getElementById("cards-container");
+
+        /* --- FILTRO --- */
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+
+                buttons.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+
+                const filter = btn.dataset.filter;
+
+                cards.forEach(card => {
+                    card.style.display = "block";
+                    if (filter !== "todos" && !card.classList.contains(`category-${filter}`)) {
+                        card.style.display = "none";
+                    }
+                });
+
+                /* Siempre alineado a la izquierda */
+                container.classList.remove("justify-content-end");
+                container.classList.add("justify-content-start");
+            });
+        });
+
+        /* --- POPUP --- */
+        const popup = document.getElementById("popup-bg");
+        const popupTitle = document.getElementById("popup-title");
+        const popupDesc = document.getElementById("popup-desc");
+        const popupImg = document.getElementById("popup-img");
+
+        cards.forEach(card => {
+            card.addEventListener("click", () => {
+                popupTitle.textContent = card.dataset.title;
+                popupDesc.textContent = card.dataset.desc;
+                popupImg.innerHTML = card.dataset.img;
+                popup.style.display = "flex";
+            });
+        });
+
+        function closePopup() {
+            popup.style.display = "none";
+        }
+    </script>
 
 </body>
 </html>
